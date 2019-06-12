@@ -1,0 +1,40 @@
+
+<div class="ui middle aligned center aligned grid">
+  <div class="column" style="width: 600px; padding: 100px;">
+    <div *ngIf="mensagemErro" class="ui negative message" >
+        <i (click)="fechaMensagemErro()" class="close icon"></i>
+        <div class="header" style="text-align: left;">
+          {{mensagemErro}}
+        </div>
+        <p style="text-align: left;">Verifique se você digitou seu email e senha corretamente</p>
+    </div>
+
+    <a href="" routerLink="/">
+      <img (click)="voltarHome()" id="imagem-logo" style="padding: 15px;" src="../../../assets/img/logo/logo-3210x815.jpg" class="ui  image">
+    </a>
+    <form [formGroup]="formLogin" (ngSubmit)="login(formLogin)" class="ui large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+            <input type="text" formControlName="email" name="email" placeholder="Email">
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <input type="password" formControlName="senha" name="password" placeholder="Senha">
+          </div>
+        </div>
+        <input type="submit" class="ui fluid large submit button" style="background: rgb(215, 100, 70); color: white;" value="Login">
+      </div>
+
+      <div class="ui error message"></div>
+
+    </form>
+
+    <div class="ui message">
+      Ainda não é cadastrado? <a routerLink="/formulario-cliente-servlet">Criar uma conta</a>
+    </div>
+  </div>
+</div>

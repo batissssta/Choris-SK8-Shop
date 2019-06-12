@@ -1,0 +1,107 @@
+<div id="menu" style="padding: 30px;">
+    
+    <img class="ui centered image" (click)="voltarHome()" id="imagem-logo" style="height: 200px;" src="../../../assets/img/logo/logo-1825x1429.jpg">
+    
+    <div class="ui secondary  menu">
+      <!--cliente-->
+      <a routerLink="/gerenciar-enderecos" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'cliente'" class="item">
+        <i class="map marker alternate link icon"></i>
+          Gerenciar endereços
+      </a>
+      <a routerLink="/gerenciar-cartoes" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'cliente'" class="item">
+        <i class="payment arrow link icon"></i>
+          Gerenciar cartões
+      </a>
+      <a routerLink="/visualizarPedidos" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'cliente'" class="item">
+        <i class="list link icon"></i>
+          Meus pedidos
+      </a>
+
+      <a routerLink="/formulario-vestimenta" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'administrador'" class="item">
+        <i class="plus circle icon"></i>
+          Gerenciar vestimentas
+      </a>
+      <a routerLink="/gerenciar-pedidos" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'administrador'" class="item">
+        <i class="list link icon"></i>
+          Gerenciar pedidos
+      </a>
+      <a routerLink="/gerenciar-estoque" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'administrador'" class="item">
+        <i class="box icon"></i>
+          Gerenciar estoque
+      </a>
+
+      
+      <a routerLink="/graficos" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'administrador'" class="item">
+        <i class="chart"></i>
+          Gerar gráficos
+      </a>
+
+      
+
+
+      <div class="right menu">
+        <div class="item">
+          <form [formGroup]="formPesquisarVestimentas" (ngSubmit)="pesquisarVestimentas(formPesquisarVestimentas)">
+            <input formControlName="descricao" style="border-bottom: solid 1px #bebebe; border-left: solid 1px #bebebe; border-top: solid 1px #bebebe; border-right: solid 0px #bebebe; height: 30px; padding-left: 5px;" type="text" placeholder="Pesquisar">
+            <button type="submit" style="height: 30px; width: 35px; background: white; border-bottom: solid 1px #bebebe; border-right: solid 1px #bebebe; border-top: solid 1px #bebebe; border-left: solid 0px #bebebe;">
+              <i class="search link icon"></i>
+            </button> 
+          </form>
+        </div>
+        <div class="item">
+          <a routerLink="/carrinho" class="ui item">
+            <i class="cart link icon"></i>
+            <p>Meu carrinho</p>
+          </a>
+        </div>
+        <a *ngIf="usuarioLogado != null" (click)="logout()" class="item">
+          <i class="sign-out link icon"></i>
+            Logout
+        </a>
+        <a *ngIf="usuarioLogado == null" class="item" routerLink="/login">
+          <i class="sign-out link icon"></i>
+            Login
+        </a>
+        
+      <p *ngIf="usuarioLogado != null" class="item">
+          <i class="user icon"></i>
+            Olá {{usuarioLogado[0].nome.split(' ')[0]}}! =)
+      </p>
+      </div>
+    </div>
+  </div>
+
+<div id="container" style="padding: 30px; ">
+  <h2 class ="ui dividing header">Resultado para a busca "{{filtro}}":</h2>
+  <h4 style="margin-bottom: 30px; ">{{vestimentas.length}} resultado(s) encontrados</h4>
+  <div class="ui grid container">
+    <div *ngFor="let vestimenta of vestimentas" class="four wide column">
+      <a (click)="visualizarProduto(vestimenta)" >
+        <img class="ui image bordered" [src]="sanitize(vestimenta.imagem)"/>
+        <p style="background: #333; color: white; padding: 5px; text-align: center;">
+          {{vestimenta.categoriaVestimenta.nome}} 
+          {{vestimenta.marca.nome}} 
+          {{vestimenta.cor}} <br>
+          R${{vestimenta.valor}}
+        </p>
+      </a>
+      </div>
+  </div>
+</div>
+
+<div style="background: #333; width: 100%; height: 220px; margin: 0 auto;" id="rodape">
+  <div class="ui grid" style="height: 200px; margin: 0 auto;">
+    <div class="eight wide column" style="height: 200px; margin: 0 auto;">
+      <img class="ui centered image" style="height: 60px; margin-top: 65px;" src="../../../assets/img/logo/logo-png-3210x815px.png">
+    </div>  
+    <div class="eight wide column" style="height: 200px; margin: 0 auto;">
+      <h5 style="color: #fff; padding: 90px 0 90px 0; text-align: center;">
+        Copyright © 2019 - Choris Sk8 Shop - 
+        <a style="color: white;" href="http://www.fatecmogidascruzes.com.br">
+          FATEC de Mogi das Cruzes
+        </a>
+      </h5>
+    </div>
+  </div>
+</div>
+  

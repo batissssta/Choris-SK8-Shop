@@ -1,0 +1,131 @@
+<app-menu></app-menu>
+
+<div style="padding-left: 30px; padding-right: 30px;">
+    <div *ngIf="mensagemErro != null" class="ui message">
+        <i (click) = "fechaMensagemErro()" class="close icon"></i>
+        <div class="header">
+            Resultado da operação:
+        </div>
+        <p>{{mensagemErro}}</p>
+    </div>
+</div>
+
+<body style="padding: 30px;">
+  <div class="ui steps" style="width: 100%;">
+    <a routerLink="/carrinho" class="step">
+      <i class="cart icon"></i>
+      <div class="content">
+        <div class="title">Carrinho</div>
+        <div class="description">Escolha os produtos que deseja comprar</div>
+      </div>
+    </a>
+    <a class="active step">
+      <i class="payment icon"></i>
+      
+      <div class="content">
+        <div class="title">Finalizar pedido</div>
+        <div class="description">Selecione o endereço e a forma de pagamento</div>
+      </div>
+    </a>
+  </div>
+
+  <form [formGroup]="formPedido" (ngSubmit)="salvarPedido(formPedido, template, template1)">
+  <div class="ui cards">
+    <div class="card" style="width: 32.1%;">
+        <div class="content">
+          <div class="ui header dividing">Selecionar endereço</div>
+            <div class="description">
+              <p *ngIf="exibeCliente()[0].enderecos.length == 0">É necessário ao menos um endereço cadastrado para realizar a compra</p>
+              <div class="grouped fields" *ngFor="let endereco of exibeCliente()[0].enderecos; index as i">
+                <div class="field">
+                  <div class="">
+                    <input formControlName="endereco" type="radio" value="{{endereco.id}}" name="endereco" tabindex="0" class="hidden">
+                    <label> Endereço {{i+1}} - {{endereco.logradouro}}, {{endereco.numero}} - {{endereco.cep}} - {{endereco.cidade}} - {{endereco.estado}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      <div routerLink="/gerenciar-enderecos" class="ui bottom attached secondary button"><i class="add icon"></i> Novo endereço </div>
+    </div>
+    <div class="card" style="width: 32.1%;">
+        <div class="content">
+          <div class="ui header dividing">Selecionar forma de pagamento</div>
+            <div class="description">
+                <p *ngIf="exibeCliente()[0].cartoes.length == 0">É necessário ao menos um cartão cadastrado para realizar a compra</p>
+              <div class="grouped fields" *ngFor="let cartao of exibeCliente()[0].cartoes; index as i">
+                <div class="field">
+                  <div class="">
+                    <input formControlName="cartao" type="radio" value="{{cartao.id}}" name="cartao" tabindex="0" class="hidden">
+                    <label> Cartão de Crédito {{i+1}} - {{cartao.nomeImpresso}} - {{cartao.numeroCartao}} - {{cartao.bandeiraCartao}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="grouped fields" *ngFor="let cupomTroca of exibeCliente()[0].cuponsTroca; index as i">
+                <div class="field">
+                  <div class="">
+                    <input formControlName="cupomTroca" value="{{cupomTroca.id}}" name="cupomTroca" type="radio" tabindex="0" class="hidden">
+                    <label> Cupom de troca {{i+1}} - R${{cupomTroca.valor}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div routerLink="/gerenciar-cartoes" class="ui bottom attached secondary button"><i class="add icon"></i> Novo cartão </div>
+    </div>
+    <div class="card" style="width: 32.1%;">
+      <div class="content">
+        <div class="ui header dividing">Revisar e finalizar</div>
+        <h5>Frete: R$ 19.99</h5>
+        <h1>Valor total: R$ {{valorTotalVenda}}</h1>
+      </div>
+      <input type="hidden" formControlName="ativaTemplate" (onSubmit)="openModal(template)">
+      <button type="submit" class="ui bottom attached primary button"><i class="arrow right icon"></i> Finalizar pedido </button>  
+    </div>
+  </div>
+  </form>
+
+  <ng-template #template id="template">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Pedido realizado com sucesso</h4>
+        <button type="button" class="close pull-right" 
+                aria-label="Close" (click)="modalRef.hide(); concluiPedido()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <form class="ui form" [formGroup]="formEntradaBaixa" (ngSubmit)="onSubmit(formEntradaBaixa)">
+        <div class="modal-body">
+            Seu pedido foi realizado com sucesso, e seu status atual é <b>em andamento!</b><br>
+            Você poderá acompanhar o status do seu pedido indo até a aba "Meus pedidos"
+        </div>
+        <div class="modal-footer">
+            <button class="ui button" (click)='modalRef.hide(); concluiPedido()'>Fechar</button>
+        </div>
+    </form>
+  </ng-template>
+
+  
+  <ng-template #template1 id="template1">
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Não foi possível realizar o pedido</h4>
+        <button type="button" class="close pull-right" 
+                aria-label="Close" (click)="modalRef.hide();">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <form class="ui form" [formGroup]="formEntradaBaixa" (ngSubmit)="onSubmit(formEntradaBaixa)">
+        <div class="modal-body">
+            Seu pedido não foi concluído pois você não selecionou um endereço e um cartão de credito válidos
+        </div>
+        <div class="modal-footer">
+            <button class="ui button" (click)='modalRef.hide()'>Fechar</button>
+        </div>
+    </form>
+  </ng-template>
+
+
+
+</body>
+
+
+  

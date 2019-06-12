@@ -1,0 +1,61 @@
+<app-menu></app-menu>
+<h1 *ngIf="mensagemErro"> {{mensagemErro}} </h1>
+<table class = "ui celled table" style="padding: 30px;">
+    <thead>
+        <th>Ações</th>
+        <th>Nome</th>
+        <th>Gênero</th>
+        <th>Data nascimento</th>
+        <th>CPF</th>
+        <th>Email</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let cliente of clientes">
+            <td>
+                <button class = "ui mini button" style="margin: 5px;" (click)="editar(cliente)">Editar</button>
+                <button class = "ui mini button" style="margin: 5px;" (click)="excluir(cliente.id)">Excluir</button>
+            </td>
+            <td>{{cliente.nome}}</td>
+            <td>{{cliente.genero}}</td>
+            <td>{{cliente.dataNascimento}}</td>
+            <td>{{cliente.cpf}}</td>
+            <td>{{cliente.email}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<form [formGroup]="formCliente" (ngSubmit)="onSubmit(formCliente)" class="ui form" style="padding: 30px;">
+    <input type = "hidden" formControlName="id" placeholder="id">
+    <div class="three fields">
+        <div class="field">
+            <label for="nome">Nome</label><br>
+            <input type = "text" formControlName="nome" placeholder="Nome do cliente"><br>
+        </div>
+        <div class="field">
+            <label for="genero">Genero</label><br>
+            <input type = "text" formControlName="genero" placeholder="Gênero do cliente"><br>
+        </div>
+        <div class="field">
+            <label for="dataNascimento">Data de Nascimento</label><br>
+            <input type = "date" formControlName="dataNascimento" placeholder="Data de nascimento do cliente"><br>
+        </div>
+    </div>
+        
+    <div class="three fields">
+            <div class="field">
+                <label for="cpf">CPF</label><br>
+                <input type = "text" formControlName="cpf" placeholder="CPF do cliente"><br>
+            </div>
+            
+            <div class="field">
+                <label for="email">Email</label><br>
+                <input type = "text" formControlName="email" placeholder="Email do cliente"><br>
+            </div>
+    
+            <div class="field">
+                <label for="senha">Senha</label><br>
+                <input type="password" formControlName="senha" placeholder="Senha do cliente"><br>
+            </div>
+    </div>
+    <button class="ui primary button" type="submit">Salvar</button>
+</form>

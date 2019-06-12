@@ -1,0 +1,59 @@
+<app-menu></app-menu>
+
+<img class="ui fluid image" src="../../../assets/img/background/background.jpg">
+
+<div id="container" style="padding: 30px;">
+  <div class="ui grid">
+    <div class="four wide column">
+      <div class="ui vertical menu">
+        <div class="item">
+          <div class="header">Marcas</div>
+          <div class="menu">
+            <a class="item" *ngFor="let marca of marcas">
+              {{marca.nome}}
+            </a>
+          </div>
+        </div>
+        <div class="item">
+          <div class="header">Categorias</div>
+          <div class="menu">
+              <a class="item" *ngFor="let categoria of categorias">
+                {{categoria.nome}}
+              </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="twelve wide column">
+      <h2 style="margin: 0px 15px 25px 15px;" class ="ui dividing header">Produtos em destaque</h2>
+      <div class="ui grid container">
+        <div *ngFor="let vestimenta of vestimentas" class="four wide column">
+            <a (click)="visualizarProduto(vestimenta)">
+              <img class="ui image bordered" [src]="sanitize(vestimenta.imagem)"/>
+              <p style="background: #333; color: white; padding: 5px; text-align: center;">
+                {{vestimenta.categoriaVestimenta.nome}} 
+                {{vestimenta.marca.nome}} 
+                {{vestimenta.cor}} <br>
+                R${{vestimenta.valor}}
+              </p>
+            </a>
+          </div>
+      </div>
+    </div>        
+  </div>
+</div>
+<div style="background: #333; width: 100%; height: 220px; margin: 0 auto;" id="rodape">
+  <div class="ui grid" style="height: 200px; margin: 0 auto;">
+    <div class="eight wide column" style="height: 200px; margin: 0 auto;">
+      <img class="ui centered image" style="height: 60px; margin-top: 65px;" src="../../../assets/img/logo/logo-png-3210x815px.png">
+    </div>  
+    <div class="eight wide column" style="height: 200px; margin: 0 auto;">
+      <h5 style="color: #fff; padding: 90px 0 90px 0; text-align: center;">
+        Copyright © 2019 - Choris Sk8 Shop - 
+        <a style="color: white;" href="http://www.fatecmogidascruzes.com.br">
+          FATEC de Mogi das Cruzes
+        </a>
+      </h5>
+    </div>
+  </div>
+</div>

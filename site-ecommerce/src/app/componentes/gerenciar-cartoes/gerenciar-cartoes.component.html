@@ -1,0 +1,78 @@
+<app-menu></app-menu>
+
+<div style="padding-left: 30px; padding-right: 30px;">
+    <div *ngIf="mensagemErro != null" class="ui message">
+        <i (click) = "fechaMensagemErro()" class="close icon"></i>
+        <div class="header">
+            Resultado da operação:
+        </div>
+        <p>{{mensagemErro}}</p>
+    </div>
+</div>
+    
+<table class = "ui celled table" style="padding: 30px;">
+  <thead>
+      <th>Ações</th>
+      <th>Número</th>
+      <th>Bandeira</th>
+      <th>Nome Impresso</th>
+      <th>Cod. Segurança</th>
+      <th>Validade</th>
+  </thead>
+  <tbody>
+      <tr *ngFor="let cartao of cartoes">
+          <td>
+              <button class = "ui mini button" style="margin: 5px;" (click)="editar(cartao)">Editar</button>
+              <button class = "ui mini button" style="margin: 5px;" (click)="excluir(cartao.id)">Excluir</button>
+          </td>
+          <td>{{cartao.numeroCartao}}</td>
+          <td>{{cartao.bandeiraCartao}}</td>
+          <td>{{cartao.nomeImpresso}}</td>
+          <td>{{cartao.codigoSeguranca}}</td>
+          <td>{{formatDate(cartao.dataValidade)}}</td>
+      </tr>
+  </tbody>
+</table>
+<form [formGroup]="formCartao" (ngSubmit)="onSubmit(formCartao)" class="ui form" style="padding: 30px;">
+  <h2 class="ui dividing header">Cadastro de Cartão</h2>
+     <div class="fields">
+        <div class="four wide field">
+            <label>Número</label>
+            <input type="text" formControlName="numeroCartaoCredito" placeholder="Número">
+        </div>
+        <div class="four wide field">
+            <label>Bandeira</label>
+            <select formControlName="bandeiraCartaoCredito">
+                <option>Selecione...</option>
+                <option>MasterCard</option>
+                <option>VISA</option>
+                <option>American Express</option>
+            </select>
+        </div>
+        <div class="eight wide field">
+            <label>Nome impresso no cartão</label>
+            <input type="text" formControlName="nomeImpressoCartaoCredito" placeholder = "Nome impresso">
+        </div>
+    </div>
+    <div class="fields">
+        <div class="three wide field">
+            <label>Código de segurança</label>
+            <input type="text" formControlName="codigoSegurancaCartao" maxlength="16" placeholder="Código de segurança">
+        </div>
+        <div class="three wide field">
+            <label>Validade do Cartão</label>
+            <input type="date" formControlName="validadeCartaoCredito" placeholder="Validade Cartão">
+        </div>
+        <div class="field">
+            <label>Cartão Preferido</label>
+            <div class="ui checkbox" style="margin: 10px;" >
+                <input type="checkbox" formControlName="cartaoPreferido" value = "true">
+                <label>Principal</label>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" formControlName="idCartao">
+    <button class="ui primary button" type="submit"><p *ngIf="operacao=='salvar'">Salvar</p><p *ngIf="operacao != 'salvar'">Alterar</p></button>
+    <button *ngIf="operacao !='salvar'" (click)="cancelarEdicao(formCartao)" class="ui button"><p>Cancelar edição</p></button>
+  </form>
+  

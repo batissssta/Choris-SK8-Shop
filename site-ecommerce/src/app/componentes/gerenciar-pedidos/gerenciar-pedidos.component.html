@@ -1,0 +1,123 @@
+<app-menu></app-menu>
+<body style="padding: 30px;">
+    <h1 class="ui dividing header">Todos os pedidos</h1>
+    
+    <!--<form [formGroup]="filtroStatus" class="ui form">
+    <div class="one field">
+        <div class="field">
+        <label for="tamanho">Situação:</label>
+        <select formControlName="filtro" (change) ="atualizaFiltro(filtroStatus)">
+            <option>Selecione...</option>
+            <option *ngFor="let status of listStatus">
+                {{status.descricao}}
+            </optSion>
+        </select>
+        </div>
+    </div>
+    </form>-->
+
+    <table class = "ui celled table" style="padding: 30px;">
+        <thead>
+            <th>Situação</th>
+            <th>Ações</th>
+            <th>Produtos</th>
+            <th>Data do pedido</th>
+            <th>Valor total</th>
+            <th>Forma de pagamento</th>
+            <th>Cliente</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let pedido of pedidos">
+                <td>{{pedido.statusPedido.descricao}}</td>
+                <td>
+                    <button *ngIf="statusPedidoConstantes.EM_PROCESSAMENTO == pedido.statusPedido.descricao" class = "ui mini button" style="margin: 5px;" (click)="openModal2(template2, pedido)">Despachar pedido</button>
+                    <button *ngIf="statusPedidoConstantes.EM_TRANSITO == pedido.statusPedido.descricao" class = "ui mini button" style="margin: 5px;" (click)="openModal2(template3, pedido)">Confirmar entrega</button>
+                    <button *ngIf="statusPedidoConstantes.EM_TROCA == pedido.statusPedido.descricao" class = "ui mini button" style="margin: 5px;" (click)="openModal(template, pedido)">Acompanhar troca</button>
+
+                </td>
+                <td>
+                <a *ngFor="let item of pedido.itensPedido" [routerLink]="['../detalhes-produto']" [queryParams]="{idVestimenta: item.vestimenta.id}">
+                    {{item.vestimenta.categoriaVestimenta.nome}} 
+                    {{item.vestimenta.marca.nome}} 
+                    {{item.vestimenta.cor}} 
+                    - Quantidade: {{item.quantidade}} <br>
+                </a>
+                
+                </td>
+                <td>{{formatDate(pedido.data)}}</td>
+                <td>R${{pedido.valor}}</td>
+                <td>{{pedido.usuario.nome}}</td>
+                <td *ngIf="pedido.cartao">Cartão de Crédito - {{pedido.cartao.nomeImpresso}}, {{pedido.cartao.numeroCartao}} - {{pedido.cartao.bandeiraCartao}}</td>
+                <td *ngIf="pedido.cupomTroca">Cupom de Troca</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Produtos e motivo para a troca</h4>
+        <button type="button" class="close pull-right" 
+            aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered table-hover table-sm display">
+            <thead>
+                <tr>
+                    <th>Categoria</th>
+                    <th>Marca</th>
+                    <th>Cor</th>
+                    <th>Tamanho</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of pedidoOperacao.itensTroca; index as i">
+                    <td>{{item.vestimenta.categoriaVestimenta.nome}}</td>
+                    <td>{{item.vestimenta.marca.nome}}</td>
+                    <td>{{item.vestimenta.cor}}</td>
+                    <td>{{item.vestimenta.tamanho}}</td>
+                    <td>{{item.vestimenta.valor}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Motivo: {{pedidoOperacao.motivo}}</h4>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" (click)="aprovarTroca(pedidoOperacao.pedido); modalRef.hide()" class="ui primary button">Aprovar troca</button>
+        <button class="ui button" (click)='reprovarTroca(pedidoOperacao.pedido); modalRef.hide()'>Recusar troca</button>
+    </div>
+</ng-template>
+
+<ng-template #template2>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Deseja realmente informar que o pedido saiu para a entrega?</h4>
+        <button type="button" class="close pull-right" 
+            aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" (click)="despacharPedido(pedidoOperacao); modalRef.hide()" class="ui primary button">Confirmar</button>
+        <button class="ui button" (click)='modalRef.hide()'>Cancelar</button>
+    </div>
+</ng-template>
+
+
+
+<ng-template #template3>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Deseja realmente informar que o pedido foi entregue?</h4>
+        <button type="button" class="close pull-right" 
+            aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" (click)="confirmarEntrega(pedidoOperacao); modalRef.hide()" class="ui primary button">Confirmar</button>
+        <button class="ui button" (click)='modalRef.hide()'>Cancelar</button>
+    </div>
+</ng-template>

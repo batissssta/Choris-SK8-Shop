@@ -1,0 +1,93 @@
+<app-menu></app-menu>
+<div style="padding-left: 30px; padding-right: 30px;">
+    <div *ngIf="mensagemErro != null" class="ui message">
+        <i (click) = "fechaMensagemErro()" class="close icon"></i>
+        <div class="header">
+            Resultado da operação:
+        </div>
+        <p>{{mensagemErro}}</p>
+    </div>
+</div>
+
+<table *ngIf="usuario != null && usuario[0].permissao == 'administrador'" class = "ui celled table" style="padding: 30px;">
+    <thead>
+        <th>Ações</th>
+        <th>Nome</th>
+        <th>Gênero</th>
+        <th>Data nascimento</th>
+        <th>CPF</th>
+        <th>Email</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let cliente of clientes">
+            <td>
+                <button class = "ui mini button" style="margin: 5px;" (click)="editar(cliente)">Editar</button>
+                <button class = "ui mini button" style="margin: 5px;" (click)="excluir(cliente.id)">Excluir</button>
+            </td>
+            <td>{{cliente.nome}}</td>
+            <td>{{cliente.genero}}</td>
+            <td>{{formatDate(cliente.dataNascimento)}}</td>
+            <td>{{cliente.cpf}}</td>
+            <td>{{cliente.email}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<form [formGroup]="formCliente" (ngSubmit)="onSubmit(formCliente)" class="ui form" style="padding: 30px;">
+    <h2 class="ui dividing header">Cadastro de Cliente</h2>
+    <!-- Dados pessoais -->
+    <h4 class="ui dividing header">Dados pessoais</h4>
+    <input type = "hidden" formControlName="id" placeholder="id">
+    <div class="three fields">
+        <div class="field">
+            <label for="nome">Nome</label>
+            <input type = "text" formControlName="nome" placeholder="Nome do cliente">
+        </div>
+        <div class="field">
+            <label for="genero">Genero</label>
+            <select formControlName="genero">
+                <option>Selecione...</option>
+                <option>Masculino</option>
+                <option>Feminino</option>
+                <option>Outro(a)</option>
+            </select>
+        </div>
+        <div class="field">
+            <label for="dataNascimento">Data de Nascimento</label>
+            <input type = "date" formControlName="dataNascimento" placeholder="Data de nascimento do cliente">
+        </div>
+    </div>
+    <div class="fields">
+        <div class="three wide field">
+            <label for="cpf">CPF</label>
+            <input type = "text" formControlName="cpf" placeholder="CPF do cliente">
+        </div>
+        
+        <div class="seven wide field">
+            <label for="email">Email</label>
+            <input type = "text" formControlName="email" placeholder="Email do cliente">
+        </div>
+
+        <div class="three wide field">
+            <label for="senha">Senha</label>
+            <input type="password" formControlName="senha" placeholder="Senha do cliente">
+        </div>
+
+        <div class="three wide field">
+            <label for="confirmarSenha">Confirmar senha</label>
+            <input type="password" formControlName="confirmarSenha" placeholder="Confirmação da senha do cliente">
+        </div>
+    </div>
+    
+    <!-- Telefone -->
+    <h4 class="ui dividing header">Telefone</h4>
+    <div class="fields">
+        <div class="four wide field">
+            <label for="numeroTelefone">Número</label>
+            <input type = "text" formControlName="numeroTelefone" placeholder="Telefone do cliente">
+        </div>
+    </div>
+    <input type="hidden" formControlName="idTelefone">
+    <button class="ui primary button" type="submit">Salvar</button>
+</form>

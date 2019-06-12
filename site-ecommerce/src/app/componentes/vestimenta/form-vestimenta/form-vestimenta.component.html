@@ -1,0 +1,117 @@
+<app-menu></app-menu>
+
+<div style="padding-left: 30px; padding-right: 30px;">
+    <div *ngIf="mensagemErro != null" class="ui message">
+        <i (click) = "fechaMensagemErro()" class="close icon"></i>
+        <div class="header">
+            Resultado da operação:
+        </div>
+        <p>{{mensagemErro}}</p>
+    </div>
+</div>
+
+<table style="margin: 30px;" class="table table-striped table-bordered table-hover table-sm display" datatable='' [dtOptions]='dtOptions' [dtTrigger]='dtTrigger'>
+  <thead>
+      <tr>
+        <th>Ações</th>
+        <th>Imagem</th>
+        <th>Categoria</th>
+        <th>Marca</th>
+        <th>Cor</th>
+        <th>Tamanho</th>
+        <th>Gênero</th>
+        <th>Valor de Venda</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr *ngFor="let vestimenta of vestimentas">
+          <td>
+              <button class = "ui mini button" style="margin: 5px;" (click)="editar(vestimenta)">Editar</button>
+              <button class = "ui mini button" style="margin: 5px;" (click)="excluir(vestimenta.id)">Excluir</button>
+          </td>
+          <td><img style="height: 80px;" [src]="sanitize(vestimenta.imagem)"/></td>
+          <td>{{vestimenta.categoriaVestimenta.nome}}</td>
+          <td>{{vestimenta.marca.nome}}</td>
+          <td>{{vestimenta.cor}}</td>
+          <td>{{vestimenta.tamanho}}</td>
+          <td>{{vestimenta.genero}}</td>
+          <td>R$ {{vestimenta.valor}}</td>
+      </tr>
+  </tbody>
+</table>
+
+<form [formGroup]="formVestimenta" (ngSubmit)="onSubmit(formVestimenta)" class="ui form" style="padding: 30px;">
+  <h4 class="ui dividing header">Cadastro de Vestimenta</h4>
+  <input type = "hidden" formControlName="id" placeholder="id">
+  <div class="four fields">
+      <div class="field">
+          <label for="categoria">Categoria</label>
+          <select formControlName="categoria">
+            <option>Selecione...</option>
+            <option *ngFor="let categoria of categorias">
+              {{categoria.nome}}
+            </option>
+          </select>
+      </div>
+      <div class="field">
+          <label for="marca">Marca</label>
+          <select formControlName="marca">
+            <option>Selecione...</option>
+            <option *ngFor="let marca of marcas">
+              {{marca.nome}}
+            </option>
+          </select>
+      </div>
+      <div class="field">
+          <label for="cor">Cor</label>
+          <select formControlName="cor">
+            <option>Selecione...</option>
+            <option>Branco(a)</option>
+            <option>Preto(a)</option>
+            <option>Vermelho(a)</option>
+            <option>Amarelo(a)</option>
+            <option>Laranja</option>
+            <option>Azul</option>
+            <option>Roxo(a)</option>
+            <option>Verde</option>
+          </select>
+      </div>
+      <div class="field">
+        <label for="tamanho">Tamanho</label>
+        <select formControlName="tamanho">
+          <option>Selecione...</option>
+          <option>XPP</option>
+          <option>PP</option>
+          <option>P</option>
+          <option>M</option>
+          <option>G</option>
+          <option>GG</option>
+          <option>XGG</option>
+          <option>Único</option>
+        </select>
+      </div>
+  </div>
+      
+  <div class="three fields">
+      <div class="field">
+        <label for="genero">Gênero</label>
+        <select formControlName="genero">
+          <option>Selecione...</option>
+          <option>Masculino(a)</option>
+          <option>Feminino(a)</option>
+          <option>Unisex</option>
+        </select>
+      </div>
+      
+      <div class="field">
+          <label for="valor">Valor de venda</label>
+          <input type = "text" formControlName="valor" placeholder="Digite o valor do produto (em R$)">
+      </div>
+
+      <div class="field">
+          <label for="imagem">Imagem</label>
+          <input type="file" formControlName="imagem" placeholder="Selecione um arquivo..." (change)="onFileChanged($event)">
+      </div>
+  </div>
+  <button class="ui primary button" type="submit">Salvar</button>
+</form>

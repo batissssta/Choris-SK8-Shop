@@ -1,0 +1,27 @@
+﻿<app-menu></app-menu>
+<div id="grafico-barras" style="width: 80%; margin-left: 10%">
+  <form style="margin-left: 40px; width: 400px; margin-bottom: 20px;" class="ui form">
+    <div class="two fields">
+      <div class="field">
+        <label>Data inicial</label>
+        <input type="date" name="dataInicial" id = "dataInicial">
+      </div>
+      <div class="field">
+        <label>Data final</label>
+        <input type="date" name="dataFinal" id = "dataFinal">
+      </div>
+      <input type="submit" class="ui primary button" value="Pesquisar" style="height: 38px; margin-top: 23px;" (click)="aplicaFiltrosVendidos()">
+      <input type="button" class="ui secundary button" value="Limpar filtro" style="height: 38px; margin-top: 23px; margin-left: 5px;" (click)="ngOnInit()">
+    </div>
+      
+    
+  </form>
+
+  <h3 style="margin-left: 40px; margin-bottom: 20px;">Gráfico dos 3 produtos mais vendidos por período</h3>
+  <ngx-chartjs [data]="data" type="line"></ngx-chartjs>
+</div>
+
+<!--<div id="grafico-barras" style="width: 80%; margin-left: 10%; margin-top: 30px;">
+  <h3 style="margin-left: 40px; margin-bottom: 20px;">Gráfico dos 3 produtos que mais faturaram por período (em R$)</h3>
+  <ngx-chartjs [data]="data2" type="line"></ngx-chartjs>
+</div>-->

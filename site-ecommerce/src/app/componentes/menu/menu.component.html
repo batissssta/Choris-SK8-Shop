@@ -1,0 +1,87 @@
+<div id="menu" style="padding: 30px;">
+    
+  <img class="ui centered image" (click)="voltarHome()" id="imagem-logo" style="height: 200px;" src="../../../assets/img/logo/logo-1825x1429.jpg">
+  
+  <div class="ui secondary  menu">
+    <!-- cliente -->
+    <a routerLink="/gerenciar-enderecos" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'cliente'" class="item">
+      <i class="map marker alternate link icon"></i>
+        Gerenciar endereços
+    </a>
+    <a routerLink="/gerenciar-cartoes" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'cliente'" class="item">
+      <i class="payment arrow link icon"></i>
+        Gerenciar cartões
+    </a>
+    <a routerLink="/visualizarPedidos" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'cliente'" class="item">
+      <i class="list link icon"></i>
+        Meus pedidos
+    </a>
+
+    <!-- administrador -->
+    <a routerLink="/formulario-vestimenta" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'administrador'" class="item">
+      <i class="plus circle icon"></i>
+        Gerenciar vestimentas
+    </a>
+    <a routerLink="/gerenciar-pedidos" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'administrador'" class="item">
+      <i class="list link icon"></i>
+        Gerenciar pedidos
+    </a>
+    <a routerLink="/gerenciar-estoque" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'administrador'" class="item">
+      <i class="box icon"></i>
+        Gerenciar estoque
+    </a>
+    
+    <a routerLink="/graficos" *ngIf="usuarioLogado != null && usuarioLogado[0].permissao == 'administrador'" class="item">
+      <i class="chart bar icon"></i>
+        Gerar gráficos
+    </a>
+
+    <!-- qualquer permissao -->
+    <div class="right menu">
+      <div class="item">
+        <form [formGroup]="formPesquisarVestimentas" (ngSubmit)="pesquisarVestimentas(formPesquisarVestimentas)">
+          <input formControlName="descricao" style="border-bottom: solid 1px #bebebe; border-left: solid 1px #bebebe; border-top: solid 1px #bebebe; border-right: solid 0px #bebebe; height: 30px; padding-left: 5px;" type="text" placeholder="Pesquisar">
+          <button type="submit" style="height: 30px; width: 35px; background: white; border-bottom: solid 1px #bebebe; border-right: solid 1px #bebebe; border-top: solid 1px #bebebe; border-left: solid 0px #bebebe;">
+            <i class="search link icon"></i>
+          </button> 
+        </form>
+      </div>
+      <div class="item">
+        <a routerLink="/carrinho" class="ui item">
+          <i class="cart link icon"></i>
+          <p>Meu carrinho</p>
+        </a>
+      </div>
+      <a *ngIf="usuarioLogado != null" (click)="openModal(template)" class="item">
+        <i class="sign-out link icon"></i>
+          Logout
+      </a>
+      <a *ngIf="usuarioLogado == null" class="item" routerLink="/login">
+        <i class="sign-out link icon"></i>
+          Login
+      </a>
+      <p *ngIf="usuarioLogado != null" class="item">
+          <i class="user icon"></i>
+            Olá {{usuarioLogado[0].nome.split(' ')[0]}}! =)
+      </p>
+
+    </div>
+  </div>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">Logout</h4>
+      <button type="button" class="close pull-right" 
+              aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="modal-body">
+      Deseja realmente fazer logout?
+  </div>
+  <div class="modal-footer">
+      <button class="ui primary button" (click)='logout()'>Confirmar</button>
+      <button class="ui button" (click)='modalRef.hide()'>Cancelar</button>
+  </div>
+</ng-template>

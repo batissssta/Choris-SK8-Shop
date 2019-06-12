@@ -1,0 +1,54 @@
+<app-menu></app-menu>
+
+<div id="container" style="padding: 30px 150px 50px 150px; ">
+  <h2 class ="ui dividing header">Detalhes do produto</h2>
+  <div class="ui grid" style="margin-top: 20px;">
+    <div class="five wide column">
+        <img class="ui fluid image bordered" [src]="sanitize(vestimenta.imagem)"/>
+    </div>
+    <div class="six wide column"></div>
+    <div class="five wide column">
+      <h3 class="ui dividing header right aligned header">
+        {{vestimenta.categoriaVestimenta.nome}} 
+        {{vestimenta.marca.nome}}
+        {{vestimenta.cor}}
+      </h3>
+      <h1 class="ui right aligned header" style="font-size: 60px;">R$ {{vestimenta.valor}}</h1>
+      <form [formGroup]="formComprar" class="ui form" (ngSubmit)="comprar()">
+        <div class="one field">
+          <div class="field">
+            <label for="tamanho">Tamanho:</label>
+            <select formControlName="tamanho" (change) ="atualizaTamanho(formComprar)">
+              <option>Selecione...</option>
+              <option value="XPP" *ngIf="vestimenta.tamanho == 'XPP'">XPP - Resta(m) {{quantidadeDisponivelEstoque.quantidade}} em estoque</option>
+              <option value="PP" *ngIf="vestimenta.tamanho == 'PP'">PP - Resta(m) {{quantidadeDisponivelEstoque.quantidade}} em estoque</option>
+              <option value="P" *ngIf="vestimenta.tamanho == 'P'">P - Resta(m) {{quantidadeDisponivelEstoque.quantidade}} em estoque</option>
+              <option value="M" *ngIf="vestimenta.tamanho == 'M'">M - Resta(m) {{quantidadeDisponivelEstoque.quantidade}} em estoque</option>
+              <option value="G" *ngIf="vestimenta.tamanho == 'G'">G - Resta(m) {{quantidadeDisponivelEstoque.quantidade}} em estoque</option>
+              <option value="GG" *ngIf="vestimenta.tamanho == 'GG'">GG - Resta(m) {{quantidadeDisponivelEstoque.quantidade}} em estoque</option>
+              <option value="XGG" *ngIf="vestimenta.tamanho == 'XGG'">XGG - Resta(m) {{quantidadeDisponivelEstoque.quantidade}} em estoque</option>
+              <option value="Único" *ngIf="vestimenta.tamanho == 'Único'">Único - Resta(m) {{quantidadeDisponivelEstoque.quantidade}} em estoque</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="ui primary button fluid">Adicionar ao carrinho</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div style="background: #333; width: 100%; height: 220px; margin: 0 auto;" id="rodape">
+  <div class="ui grid" style="height: 200px; margin: 0 auto;">
+    <div class="eight wide column" style="height: 200px; margin: 0 auto;">
+      <img class="ui centered image" style="height: 60px; margin-top: 65px;" src="../../../assets/img/logo/logo-png-3210x815px.png">
+    </div>  
+    <div class="eight wide column" style="height: 200px; margin: 0 auto;">
+      <h5 style="color: #fff; padding: 90px 0 90px 0; text-align: center;">
+        Copyright © 2019 - Choris Sk8 Shop - 
+        <a style="color: white;" href="http://www.fatecmogidascruzes.com.br">
+          FATEC de Mogi das Cruzes
+        </a>
+      </h5>
+    </div>
+  </div>
+</div>
