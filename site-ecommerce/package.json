@@ -27,7 +27,7 @@
     "datatables.net": "^1.10.19",
     "datatables.net-bs4": "^1.10.19",
     "datatables.net-dt": "^1.10.19",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "ng2-money-mask": "^2.1.0",
     "ngx-bootstrap": "^4.1.1",
     "rxjs": "~6.3.3",
